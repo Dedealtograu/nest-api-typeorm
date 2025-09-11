@@ -3,7 +3,7 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 @Entity({ name: 'users' })
 export class UserEntity {
   @PrimaryGeneratedColumn()
-  id: number
+  id?: number
   @Column({ length: 63 })
   name: string
   @Column({ unique: true, length: 127 })
@@ -11,11 +11,11 @@ export class UserEntity {
   @Column({ length: 127 })
   password: string
   @Column({ type: 'date', nullable: true })
-  birthAt: Date
+  birthAt?: Date
   @Column({ enum: [1, 2], default: 1 }) // 1: user, 2: admin
   role: number
   @CreateDateColumn()
-  createdAt: string
+  createdAt?: Date
   @UpdateDateColumn()
-  updatedAt: string
+  updatedAt?: Date
 }

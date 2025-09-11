@@ -30,12 +30,12 @@ export class UserService {
   }
 
   async findById(id: number) {
-    await this.exists(id)
+    await this.exist(id)
     return this.usersRepository.findOneBy({ id })
   }
 
   async update(id: number, { name, email, password, birthAt, role }: UpdatePutUserDto) {
-    await this.exists(id)
+    await this.exist(id)
 
     password = await bcrypt.hash(password, await bcrypt.genSalt())
 
@@ -51,7 +51,7 @@ export class UserService {
   }
 
   async updatePartial(id: number, { name, email, password, birthAt, role }: UpdatePatchUserDto) {
-    await this.exists(id)
+    await this.exist(id)
     const data: UpdatePatchUserDto = {}
 
     if (birthAt) {
@@ -81,11 +81,12 @@ export class UserService {
   }
 
   async delete(id: number) {
-    await this.exists(id)
-    return this.usersRepository.delete(id)
+    await this.exist(id)
+    await this.usersRepository.delete(id)
+    return true
   }
 
-  async exists(id: number) {
+  async exist(id: number) {
     if (
       !(await this.usersRepository.exists({
         where: {
