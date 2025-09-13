@@ -10,11 +10,11 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsDateString()
-  birthAt: Date
+  birthAt?: Date
 
   @IsOptional()
   @IsEnum(Role)
-  role: number
+  role?: number
 
   @IsStrongPassword({
     minLength: 6,

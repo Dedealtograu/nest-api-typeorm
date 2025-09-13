@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { UserService } from 'src/user/user.service'
+import { UserService } from '../user/user.service'
 import { AuthRegisterDto } from './dto/auth-register.dto'
 import * as bcrypt from 'bcrypt'
 import { MailerService } from '@nestjs-modules/mailer/dist'
-import { UserEntity } from 'src/user/entity/user.entity'
+import { UserEntity } from '../user/entity/user.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
@@ -77,7 +77,6 @@ export class AuthService {
         audience: 'users',
       },
     )
-
     await this.mailer.sendMail({
       to: 'dede@email.com',
       subject: 'Redefinição de senha',
@@ -120,6 +119,7 @@ export class AuthService {
   }
 
   async register(data: AuthRegisterDto) {
+    delete data.role
     const user = await this.userService.create(data)
     return this.createToken(user)
   }

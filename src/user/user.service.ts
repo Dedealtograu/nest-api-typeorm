@@ -67,7 +67,6 @@ export class UserService {
     }
 
     if (role) {
-      console.log(role)
       data.role = role
     }
 
