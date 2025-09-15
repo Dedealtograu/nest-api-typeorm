@@ -17,10 +17,10 @@ import { UpdatePutUserDto } from './dto/update-put-user.dto'
 import { UpdatePatchUserDto } from './dto/update-patch-user.dto'
 import { LogInterceptor } from '../interceptors/log.interceptor'
 import { ParamId } from '../decorators/param-id.decorator'
-import { Role } from 'src/enums/role.enums'
-import { Roles } from 'src/decorators/roles.decorator'
-import { AuthGuard } from 'src/guards/auth.guard'
-import { RoleGuard } from 'src/guards/role.guard'
+import { Role } from '../enums/role.enums'
+import { Roles } from '../decorators/roles.decorator'
+import { AuthGuard } from '../guards/auth.guard'
+import { RoleGuard } from '../guards/role.guard'
 
 @UseGuards(AuthGuard, RoleGuard)
 @UseInterceptors(LogInterceptor)
@@ -61,6 +61,8 @@ export class UserController {
   @Roles(Role.Admin)
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.delete(id)
+    return {
+      success: await this.userService.delete(id),
+    }
   }
 }
