@@ -19,7 +19,6 @@ import { AuthService } from './auth.service'
 import { AuthGuard } from 'src/guards/auth.guard'
 import { User } from 'src/decorators/user.decorator'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { join } from 'path'
 import { FileService } from 'src/file/file.service'
 import { CreateUserDto } from 'src/user/dto/create-user.dto'
 
@@ -73,15 +72,15 @@ export class AuthController {
     photo: Express.Multer.File,
   ) {
     // eslint-disable-next-line
-    const path = join(__dirname, '..', '..', 'storage', 'photos', `photo-${user.id}.jpg`)
+    const fieldname = `photo-${user.id}.png` 
 
     try {
-      await this.fileService.upload(photo, path)
+      await this.fileService.upload(photo, fieldname)
     } catch (e) {
       throw new BadRequestException(e)
     }
 
-    return { success: true }
+    return { photo }
   }
 
   // @UseInterceptors(FilesInterceptor('files'))
