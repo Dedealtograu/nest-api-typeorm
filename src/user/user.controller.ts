@@ -28,13 +28,13 @@ import { RoleGuard } from '../guards/role.guard'
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Roles(Role.Admin, Role.User)
+  @Roles(Role.Admin)
   @Post()
   async create(@Body() data: CreateUserDto) {
     return this.userService.create(data)
   }
 
-  @Roles(Role.Admin, Role.User)
+  @Roles(Role.Admin)
   @Get()
   async list() {
     return this.userService.list()
@@ -45,13 +45,13 @@ export class UserController {
     return this.userService.findById(id)
   }
 
-  @Roles(Role.Admin, Role.User)
+  @Roles(Role.Admin)
   @Put(':id')
   async update(@Body() data: UpdatePutUserDto, @Param('id', ParseIntPipe) id: number) {
     return this.userService.update(id, data)
   }
 
-  @Roles(Role.Admin, Role.User)
+  @Roles(Role.Admin)
   @Patch(':id')
   async updatePartial(@Body() data: UpdatePatchUserDto, @Param('id', ParseIntPipe) id: number) {
     console.log(data)

@@ -13,7 +13,7 @@ import { UserEntity } from './user/entity/user.entity'
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ envFilePath: process.env.ENV === 'test' ? '.env.test' : '.env', isGlobal: true }),
     ThrottlerModule.forRoot({ throttlers: [{ ttl: 60, limit: 100 }] }),
     forwardRef(() => UserModule),
     forwardRef(() => AuthModule),
