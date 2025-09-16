@@ -50,7 +50,7 @@ describe('AuthService', () => {
 
     it('should forget a user', async () => {
       const result = await authService.forget('bVXhU@example.com')
-      expect(result).toEqual(true)
+      expect(result).toEqual({ success: true })
     })
 
     it('should reset a user', async () => {

@@ -14,18 +14,16 @@ import { AuthLoginDto } from './dto/auth-login.dto'
 import { AuthRegisterDto } from './dto/auth-register.dto'
 import { AuthForgetDto } from './dto/auth-forget.dto'
 import { AuthResetDto } from './dto/auth-reset.dto'
-import { UserService } from 'src/user/user.service'
 import { AuthService } from './auth.service'
-import { AuthGuard } from 'src/guards/auth.guard'
-import { User } from 'src/decorators/user.decorator'
+import { AuthGuard } from '../guards/auth.guard'
+import { User } from '../decorators/user.decorator'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { FileService } from 'src/file/file.service'
-import { CreateUserDto } from 'src/user/dto/create-user.dto'
+import { FileService } from '../file/file.service'
+import { UserEntity } from '../user/entity/user.entity'
 
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly userService: UserService,
     private readonly authService: AuthService,
     private readonly fileService: FileService,
   ) {}
@@ -52,15 +50,15 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Post('me')
-  me(@User() user: CreateUserDto) {
-    return { user }
+  me(@User() user: UserEntity) {
+    return user
   }
 
   @UseInterceptors(FileInterceptor('file'))
   @UseGuards(AuthGuard)
   @Post('photo')
   async uploadPhoto(
-    @User() user,
+    @User() user: UserEntity,
     @UploadedFile(
       new ParseFilePipe({
         validators: [
@@ -80,7 +78,7 @@ export class AuthController {
       throw new BadRequestException(e)
     }
 
-    return { photo }
+    return photo
   }
 
   // @UseInterceptors(FilesInterceptor('files'))
